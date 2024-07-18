@@ -1,0 +1,15 @@
+C:\Users\faraz\Downloads\ToDoList\DAL\bin\Debug\net7.0\DAL.deps.json
+C:\Users\faraz\Downloads\ToDoList\DAL\bin\Debug\net7.0\DAL.dll
+C:\Users\faraz\Downloads\ToDoList\DAL\bin\Debug\net7.0\DAL.pdb
+C:\Users\faraz\Downloads\ToDoList\DAL\bin\Debug\net7.0\ML.dll
+C:\Users\faraz\Downloads\ToDoList\DAL\bin\Debug\net7.0\ML.pdb
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.csproj.AssemblyReference.cache
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.AssemblyInfoInputs.cache
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.AssemblyInfo.cs
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.csproj.Up2Date
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.dll
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\refint\DAL.dll
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\DAL.pdb
+C:\Users\faraz\Downloads\ToDoList\DAL\obj\Debug\net7.0\ref\DAL.dll

@@ -1,0 +1,129 @@
+create database ToDoApp
+
+
+
+CREATE TABLE List (
+   listID INT IDENTITY(1,1) PRIMARY KEY,
+   listName VARCHAR(255) NOT NULL,
+   color VARCHAR(255)
+);
+use ToDoAPp
+select * from Tasks;
+
+use ToDoApp
+
+DELETE FROM Tasks 
+WHERE taskID = 27;
+
+SELECT 
+    t.taskID, 
+    t.userID, 
+    t.name, 
+    t.description, 
+    t.date, 
+    t.taskList, 
+    l.color 
+FROM Tasks t
+LEFT JOIN List l ON t.taskList = l.listName;
+
+
+CREATE TABLE StickyNotes (
+    userID INT PRIMARY KEY,
+    title VARCHAR(255),
+    description VARCHAR(255)
+);
+
+
+
+use ToDoApp
+select * from List
+select * from Users
+select * from Tasks
+
+SELECT 
+    t.taskID, 
+    t.userID, 
+    t.name, 
+    t.description, 
+    t.date, 
+    t.taskList,
+    l.color,
+    t.checkBox
+FROM Tasks t
+LEFT JOIN List l ON t.taskList = l.listName AND t.userID = l.userID
+WHERE t.userID = 6;
+
+CREATE TABLE StickyNote (
+    stickyID INT identity(1,1) PRIMARY KEY,
+    userID INT,
+    title VARCHAR(255),
+    description VARCHAR(255),
+    FOREIGN KEY (userID) REFERENCES users(userID)
+);
+
+CREATE TABLE Users (
+    userID int identity(1,1) primary key,
+    userName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+DELETE FROM Tasks;
+
+
+select from List
+
+CREATE TABLE List (
+   listID INT IDENTITY(1,1) PRIMARY KEY,
+   listName VARCHAR(255) NOT NULL,
+   color VARCHAR(255)
+);
+
+ALTER TABLE List
+ADD userID INT;
+
+ALTER TABLE List
+ADD CONSTRAINT FK_List_Users FOREIGN KEY (userID) REFERENCES Users(userID);
+
+
+CREATE TABLE Tasks (
+    taskID int identity(1,1) primary key,
+    userID int NOT NULL,
+    name VARCHAR(255),
+    description VARCHAR(255),
+    date DATE,
+    taskList VARCHAR(255),
+    checkBox BIT DEFAULT 0,
+    FOREIGN KEY (userID) REFERENCES Users(userID)
+);
+ALTER TABLE Tasks
+ADD checkBox BIT DEFAULT 0;
+
+use ToDoApp
+
+USE tOdoaPP
+select * from tasks
+
+UPDATE Tasks SET checkBox = 0 WHERE taskID = 12
+
+SELECT 
+t.taskID, 
+ t.userID, 
+t.name, 
+t.description, 
+t.date, 
+t.taskList,
+t.checkBox,
+l.color
+FROM Tasks t
+LEFT JOIN List l ON t.taskList = l.listName;
+
+DELETE FROM Tasks WHERE taskID IN (3, 5, 6, 8);
+
+
+UPDATE Tasks 
+SET name = 'H', 
+    description = 'H', 
+    date = '2024-07-11', 
+    taskList = 'Okay'
+WHERE userID = 1 AND taskID = 4;
