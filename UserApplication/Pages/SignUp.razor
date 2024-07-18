@@ -1,0 +1,81 @@
+﻿@page "/SignUp"
+
+@inject Global global;
+@inject NavigationManager navigation;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Productive Mind</title>
+    <link rel="stylesheet" href="css/Style.css" />
+
+</head>
+<body>
+    <div class="container-flex">
+        <img class="image" src="Images/Welcome3.png" alt="Image" />
+
+        <div class="text-container">
+            <h1>Sign up</h1>
+            <EditForm OnSubmit="Signup" Model="@userinfo">
+                <div class="col-12">
+                    <div class="input-group">
+                        <InputText @bind-Value="userinfo.userName" class="form-control" placeHolder="e.g. Ahmad Ali" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-group">
+                        <InputText @bind-Value="userinfo.email" class="form-control" placeHolder="e.g. abc@mail.com" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-group">
+                        <InputText @bind-Value="userinfo.password" class="form-control" placeHolder="******" type="password" />
+                    </div>
+                </div>
+
+                <div class="col-12 m-2">
+                    <div class="form-check">
+                        <label class="form-check-label" for="rememberMe">@errorMessage</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-warning w-100" type="submit">Sign up</button>
+                </div>
+            </EditForm>
+
+            <button @onclick="Signin" class="b bt w-100">Already have an account? Sign in</button>
+        </div>
+
+    </div>
+</body>
+</html>
+
+@code {
+    private UserInfo userinfo = new UserInfo();
+    private string? errorMessage;
+
+    private void OnInitialized()
+    {
+        global.Id = 0;
+    }
+    private void Signup()
+    {
+        errorMessage = DALUserInfo.AddUser(userinfo);
+
+        if (errorMessage == "User added successfully.")
+        {
+            navigation.NavigateTo("/SignIn");
+        }
+
+
+    }
+    private void Signin()
+    {
+        navigation.NavigateTo("/SignIn");
+    }
+}

@@ -1,0 +1,676 @@
+﻿@page "/Upcomming"
+@inject IJSRuntime JS
+@inject Global global;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Example</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="css/Style2.css" />
+    <style>
+        li:hover {
+            background: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @if (!toggleFlag)
+        {
+            if (descriptionFlag)
+            {
+                <button class="toggle-button" @onclick="ToggleSidebar" style="left:2%; top: 1%; background-color:white; font-size:1.3rem">☰</button>
+            }
+            else
+            {
+                <button class="toggle-button" @onclick="ToggleSidebar" style="left:2%; top: 3%; background-color:white; font-size:1.3rem">☰</button>
+            }
+
+        }
+        else
+        {
+            if (descriptionFlag)
+            {
+                <button class="toggle-button" @onclick="ToggleSidebar" style="top:3.5%; left: 20%; background-color:inherit;">☰</button>
+            }
+            else
+            {
+                <button class="toggle-button" @onclick="ToggleSidebar" style="top:3.5%; left: 22%; background-color:inherit;">☰</button>
+            }
+
+        }
+
+        @if (toggleFlag)
+        {
+            <aside class="sidebar" id="sidebar">
+                <div>
+                    <div class="sidebar-header">
+                        <h4>Menu</h4>
+                    </div>
+                    <EditForm Model="list" OnValidSubmit="@Search">
+                        <InputText class="listSearch input-text" @bind-Value="search" placeholder="Search" />
+                    </EditForm>
+                    <ul class="sidebar-links">
+                        <h5>
+                            <span>Tasks</span>
+                            <div class="menu-separator"></div>
+                        </h5>
+                        <li>
+                            <a href="Upcomming">
+                                <span class="material-symbols-outlined"> double_arrow </span>Upcomming
+                                <span class="task-count">@countTotalList</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Today">
+                                <span class="material-symbols-outlined"> lists </span>Today
+                                <span class="task-count">@countTodayList</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="StickyNotes">
+                                <span class="material-symbols-outlined"> sticky_note </span>Sticky Walls
+                                <span class="task-count">@countStickyList</span>
+                            </a>
+                        </li>
+                        <h5>
+                            <span>List</span>
+                            <div class="menu-separator"></div>
+                        </h5>
+                        <li>
+                            @foreach (var list in getList)
+                            {
+                                <a href="@list.listName"><span class="color" style="background-color:@list.color"></span>@list.listName</a>
+                            }
+                        </li>
+                        <li>
+                            <a @onclick="SetFlag" class="newListSelector"><span class="material-symbols-outlined"> add </span>Add new list</a>
+                        </li>
+                        @if (ListFlag)
+                        {
+                            <div class="color-picker-container">
+                                <div class="list-header">
+                                    <span class="color-indicator" style="background-color:@list.color;"></span>
+                                    <EditForm Model="list" OnValidSubmit="@AddList">
+                                        <InputText class="listName input-text" @bind-Value="list.listName" placeholder="List Name" />
+                                    </EditForm>
+                                </div>
+                                <div class="color-options">
+                                    @foreach (var color in Colors)
+                                    {
+                                        <button class="color-button" style="background-color:@color;" @onclick="() => SelectColor(color)">
+                                            @if (color == list.color)
+                                            {
+                                                <span class="selected-indicator"></span>
+                                            }
+                                        </button>
+                                    }
+                                </div>
+                                <div>
+                                    <button class="btn-custom" @onclick="AddList">Add List</button>
+                                </div>
+                            </div>
+                        }
+                    </ul>
+                </div>
+                <ul class="sidebar-bottom-links">
+                    <li>
+                        <a href="#"><span class="material-symbols-outlined"> settings </span>Settings</a>
+                    </li>
+                    <li>
+                        <a href="SignIn"><span class="material-symbols-outlined"> logout </span>Logout</a>
+                    </li>
+                </ul>
+            </aside>
+        }
+    </div>
+
+    @if (descriptionFlag)
+    {
+        @if (!toggleFlag)
+        {
+            <div class="Today-main" style="margin-left:7%;">
+                <h2 style="margin-left:3.5%;">Upcomming<span class="m-5">@totalList</span></h2>
+                <div class="Today-comain">
+                    <div class="task-containerr">
+                        <ul class="task-list" style="width:110vh">
+                            <li>
+                                <button @onclick="ChangeNewTaskFlag" class="b bt w-100" style="display:block;">
+                                    <span class="material-symbols-outlined" style="font-weight:800"> add </span>
+                                    @if (addListErrorMessage != null)
+                                    {
+                                        @addListErrorMessage
+                                        ;
+                                    }
+                                    else
+                                    {
+                                        <span>Add new Task</span>
+                                    }
+
+                                </button>
+                            </li>
+                            @if (addNewTaskFlag)
+                            {
+                                <EditForm Model="addNewTaskInfo" OnSubmit="AddNewTask" class="editformsecond">
+
+                                    <div>
+                                        <InputTextArea id="taskName" @bind-Value="addNewTaskInfo.name" placeholder="Title" class="form-control update" />
+                                    </div>
+                                    <div>
+                                        <InputTextArea id="description" @bind-Value="addNewTaskInfo.description" placeholder="Description" class="form-control update" />
+                                    </div>
+                                    <div>
+                                        <InputSelect id="list" @bind-Value="addNewTaskInfo.taskList" class="form-control update">
+                                            @foreach (var list in getList)
+                                            {
+                                                <option value="@list.listName">@list.listName</option>
+                                            }
+                                        </InputSelect>
+                                    </div>
+                                    <div>
+                                        <label for="dueDate">Due Date</label>
+                                        <InputDate id="dueDate" @bind-Value="addNewTaskInfo.date" class="form-control update" />
+                                    </div>
+
+                                    <div class="buttons mt-3">
+
+                                        <button type="submit" class="btn btn-warning btn-md">Add new task</button>
+                                    </div>
+                                </EditForm>
+                            }
+
+                            @foreach (var task in getTask)
+                            {
+
+                                <li>
+                                    <button type="submit" @onclick="() => HandleCheckboxChange(task.taskID,task.checkBox)" style="border: none; background: none;">
+                                        <input type="checkbox" @bind="task.checkBox" />
+                                    </button>
+                                    <button class="bt" @onclick="() => Description(task.taskID,task.name,task.description,task.taskList,task.date)">
+                                        <span class="task-details">
+                                            @if (task.checkBox)
+                                            {
+                                                <s>
+                                                    @task.name
+                                                    <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                                    <br>
+                                                    <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                                </s>
+                                            }
+                                            else
+                                            {
+                                                @task.name
+                                                <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                                <br>
+                                                <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                            }
+                                        </span>
+                                        <i class="fas fa-chevron-right icon"></i>
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="task-container" style="justify-content: right; height: 85vh; width:70vh">
+                        <h3>Task</h3>
+                        <EditForm Model="taskInfo" OnSubmit="Update" class="editForm">
+                            <div>
+                                <InputTextArea id="taskName" @bind-Value="taskInfo.name" placeholder="Name" class="form-control update" />
+                            </div>
+                            <div>
+                                <InputTextArea id="description" @bind-Value="taskInfo.description" placeholder="Description" class="form-control update" />
+                            </div>
+                            <div>
+                                <label for="list">List</label>
+                                <InputSelect id="list" @bind-Value="taskInfo.taskList" class="form-control update">
+                                    @foreach (var list in getList)
+                                    {
+                                        <option value="@list.listName" selected="@((taskInfo.taskList == list.listName) ? "selected" : null)">
+                                            @list.listName
+                                        </option>
+                                    }
+                                </InputSelect>
+                            </div>
+                            <div>
+                                <label for="dueDate">Due Date</label>
+                                <InputDate id="dueDate" @bind-Value="taskInfo.date" class="form-control update" />
+                            </div>
+
+                            <div class="buttons mt-3">
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="DeleteTask">Delete Task</button>
+                                <button type="submit" class="btn btn-warning btn-sm">Save Changes</button>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="Today-main">
+                <h2 style="margin-left:4%">Upcomming<span class="m-5">@countTotalList</span></h2>
+                <div class="Today-comain">
+                    <div class="task-containerr">
+                        <ul class="task-list">
+                            <li>
+                                <button @onclick="ChangeNewTaskFlag" class="b bt w-100" style="display:block;">
+                                    <span class="material-symbols-outlined" style="font-weight:800"> add </span>
+                                    @if (addListErrorMessage != null)
+                                    {
+                                        @addListErrorMessage
+                                        ;
+                                    }
+                                    else
+                                    {
+                                        <span>Add new Task</span>
+                                    }
+
+                                </button>
+                            </li>
+                            @if (addNewTaskFlag)
+                            {
+                                <EditForm Model="addNewTaskInfo" OnSubmit="AddNewTask" class="editformsecond">
+
+                                    <div>
+                                        <InputTextArea id="taskName" @bind-Value="addNewTaskInfo.name" placeholder="Title" class="form-control update" />
+                                    </div>
+                                    <div>
+                                        <InputTextArea id="description" @bind-Value="addNewTaskInfo.description" placeholder="Description" class="form-control update" />
+                                    </div>
+                                    <div>
+                                        <InputSelect id="list" @bind-Value="addNewTaskInfo.taskList" class="form-control update">
+                                            @foreach (var list in getList)
+                                            {
+                                                <option value="@list.listName">@list.listName</option>
+                                            }
+                                        </InputSelect>
+                                    </div>
+                                    <div>
+                                        <label for="dueDate">Due Date</label>
+                                        <InputDate id="dueDate" @bind-Value="addNewTaskInfo.date" class="form-control update" />
+                                    </div>
+
+                                    <div class="buttons mt-3">
+
+                                        <button type="submit" class="btn btn-warning btn-md">Add new task</button>
+                                    </div>
+                                </EditForm>
+                            }
+                            @foreach (var task in getTask)
+                            {
+
+                                <li>
+                                    <button type="submit" @onclick="() => HandleCheckboxChange(task.taskID,task.checkBox)" style="border: none; background: none;">
+                                        <input type="checkbox" @bind="task.checkBox" />
+                                    </button>
+                                    <button class="bt" @onclick="() => Description(task.taskID,task.name,task.description,task.taskList,task.date)">
+                                        <span class="task-details">
+                                            @if (task.checkBox)
+                                            {
+                                                <s>
+                                                    @task.name
+                                                    <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                                    <br>
+                                                    <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                                </s>
+                                            }
+                                            else
+                                            {
+                                                @task.name
+                                                <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                                <br>
+                                                <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                            }
+                                        </span>
+                                        <i class="fas fa-chevron-right icon"></i>
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="task-container" style="justify-content: right; height: 85vh; width:70vh">
+                        <h3>Task</h3>
+                        <EditForm Model="taskInfo" OnSubmit="Update" class="editForm">
+
+                            <div>
+                                <InputTextArea id="taskName" @bind-Value="taskInfo.name" placeholder="Task Name" class="form-control update" />
+                            </div>
+                            <div>
+                                <InputTextArea id="description" @bind-Value="taskInfo.description" placeholder="Description" class="form-control update" />
+                            </div>
+                            <div>
+                                <label for="list">List</label>
+
+                                <InputSelect id="list" @bind-Value="taskInfo.taskList" class="form-control update">
+                                    @foreach (var list in getList)
+                                    {
+                                        <option value="@list.listName" selected="@((taskInfo.taskList == list.listName) ? "selected" : null)">
+                                            @list.listName
+                                        </option>
+                                    }
+                                </InputSelect>
+
+                            </div>
+                            <div>
+                                <label for="dueDate">Due Date</label>
+                                <InputDate id="dueDate" @bind-Value="taskInfo.date" class="form-control update" />
+                            </div>
+
+                            <div class="buttons mt-3">
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="DeleteTask">Delete Task</button>
+                                <button type="submit" class="btn btn-warning btn-sm">Save Changes</button>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+    else
+    {
+        @if (!toggleFlag)
+        {
+            <div class="Today-main">
+                <h2 style="margin-left:20%;margin-top:1.2%;">Upcomming<span class="m-5">@countTotalList</span></h2>
+                <div class="task-containerr" style="margin:2% 17%; align-items:center;">
+                    <ul class="task-list" style="width:130vh;">
+                        <li>
+                            <button @onclick="ChangeNewTaskFlag" class="b bt w-100" style="display:block;">
+                                <span class="material-symbols-outlined" style="font-weight:800"> add </span>
+                                @if (addListErrorMessage != null)
+                                {
+                                    @addListErrorMessage
+                                    ;
+                                }
+                                else
+                                {
+                                    <span>Add new Task</span>
+                                }
+
+                            </button>
+                        </li>
+                        @if (addNewTaskFlag)
+                        {
+                            <EditForm Model="addNewTaskInfo" OnSubmit="AddNewTask" class="editformsecond">
+
+                                <div>
+                                    <InputTextArea id="taskName" @bind-Value="addNewTaskInfo.name" placeholder="Title" class="form-control update" />
+                                </div>
+                                <div>
+                                    <InputTextArea id="description" @bind-Value="addNewTaskInfo.description" placeholder="Description" class="form-control update" />
+                                </div>
+                                <div>
+
+                                    <InputSelect id="list" @bind-Value="addNewTaskInfo.taskList" class="form-control update">
+                                        @foreach (var list in getList)
+                                        {
+                                            <option value="@list.listName">@list.listName</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                                <div>
+                                    <label for="dueDate">Due Date</label>
+                                    <InputDate id="dueDate" @bind-Value="addNewTaskInfo.date" class="form-control update" />
+                                </div>
+
+                                <div class="buttons mt-3">
+
+                                    <button type="submit" class="btn btn-warning btn-md">Add new task</button>
+                                </div>
+                            </EditForm>
+                        }
+                        @foreach (var task in getTask)
+                        {
+
+                            <li>
+                                <button type="submit" @onclick="() => HandleCheckboxChange(task.taskID,task.checkBox)" style="border: none; background: none;">
+                                    <input type="checkbox" @bind="task.checkBox" />
+                                </button>
+                                <button class="bt" @onclick="() => Description(task.taskID,task.name,task.description,task.taskList,task.date)">
+                                    <span class="task-details">
+                                        @if (task.checkBox)
+                                        {
+                                            <s>
+                                                @task.name
+                                                <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                                <br>
+                                                <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                            </s>
+                                        }
+                                        else
+                                        {
+                                            @task.name
+                                            <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                            <br>
+                                            <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                        }
+                                    </span>
+                                    <i class="fas fa-chevron-right icon"></i>
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="Today-main">
+                <h2 style="margin-left:5%;margin-top:1%;">Upcomming<span class="m-5">@countTotalList</span></h2>
+                <div class="task-containerr" style="margin:0 2%; align-items:center;">
+                    <ul class="task-list" style="width:130vh;">
+                        <li>
+                            <button @onclick="ChangeNewTaskFlag" class="b bt w-100" style="display:block;">
+                                <span class="material-symbols-outlined" style="font-weight:800"> add </span>
+                                @if (addListErrorMessage != null)
+                                {
+                                    @addListErrorMessage
+                                    ;
+                                }
+                                else
+                                {
+                                    <span>Add new Task</span>
+                                }
+
+                            </button>
+                        </li>
+                        @if (addNewTaskFlag)
+                        {
+                            <EditForm Model="addNewTaskInfo" OnSubmit="AddNewTask" class="editformsecond">
+
+                                <div>
+                                    <InputTextArea id="taskName" @bind-Value="addNewTaskInfo.name" placeholder="Title" class="form-control update" />
+                                </div>
+                                <div>
+                                    <InputTextArea id="description" @bind-Value="addNewTaskInfo.description" placeholder="Description" class="form-control update" />
+                                </div>
+                                <div>
+                                    <InputSelect id="list" @bind-Value="addNewTaskInfo.taskList" class="form-control update">
+                                        @foreach (var list in getList)
+                                        {
+                                            <option value="@list.listName">@list.listName</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                                <div>
+                                    <label for="dueDate">Due Date</label>
+                                    <InputDate id="dueDate" @bind-Value="addNewTaskInfo.date" class="form-control update" />
+                                </div>
+
+                                <div class="buttons mt-3">
+
+                                    <button type="submit" class="btn btn-warning btn-md">Add new task</button>
+                                </div>
+                            </EditForm>
+                        }
+                        @foreach (var task in getTask)
+                        {
+
+                            <li>
+                                <button type="submit" @onclick="() => HandleCheckboxChange(task.taskID,task.checkBox)" style="border: none; background: none;">
+                                    <input type="checkbox" @bind="task.checkBox" />
+                                </button>
+                                <button class="bt" @onclick="() => Description(task.taskID,task.name,task.description,task.taskList,task.date)">
+                                    <span class="task-details">
+                                        @if (task.checkBox)
+                                        {
+                                            <s>
+                                                @task.name
+                                                <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                                <br>
+                                                <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                            </s>
+                                        }
+                                        else
+                                        {
+                                            @task.name
+                                            <span class="category personal" style="background-color:@task.listColor">@task.taskList</span>
+                                            <br>
+                                            <small>Due date: @task.date.ToString("dd-MM-yy")</small>
+                                        }
+                                    </span>
+                                    <i class="fas fa-chevron-right icon"></i>
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+
+    }
+</body>
+</html>
+@code {
+    private ListInfo list = new ListInfo();
+    private List<ListInfo> getList = new List<ListInfo>();
+    private string? search;
+    private bool toggleFlag = true, addNewTaskFlag = false;
+    private bool descriptionFlag = false;
+    private TaskInfo taskInfo = new TaskInfo();
+    private TaskInfo addNewTaskInfo = new TaskInfo();
+    private bool ListFlag { get; set; }
+    private string listErrorMessage;
+    private string addListErrorMessage = null;
+    private List<TaskInfo> getTask = new List<TaskInfo>();
+
+    protected override void OnInitialized()
+    {
+        LoadList();
+        LoadTask();
+        list.color = "#0000ff";
+
+    }
+    private int totalList = 0;
+
+    private void LoadList()
+    {
+        getList = DALList.GetAllLists(global.Id);
+    }
+    private int countTotalList = 0, countTodayList = 0, countStickyList = 0;
+    private List<TaskInfo> getTodayTask = new List<TaskInfo>();
+    private List<StickyNote> stickyList = new List<StickyNote>();
+    private void LoadTask()
+    {
+        getTask = DALTask.GetTasks(global.Id);
+        countTotalList = getTask.Count();
+        getTodayTask = DALTask.GetTodayTasks(global.Id);
+        countTodayList = getTodayTask.Count();
+        stickyList = DALStickyNotes.GetStickyNotes(global.Id);
+        countStickyList = stickyList.Count();
+    }
+
+    private List<string> Colors { get; set; } = new List<string>
+    {
+        "#ff5f5f", "#ff73fa", "#b678ff", "#5f5fff", "#5fcfff", "#5fff93", "#ffec5f", "#ffaf5f"
+    };
+
+    private void ToggleSidebar()
+    {
+        toggleFlag = !toggleFlag;
+    }
+
+    private void SetFlag()
+    {
+        ListFlag = !ListFlag;
+    }
+
+    private void SelectColor(string color)
+    {
+        list.color = color;
+    }
+
+    private void Search()
+    {
+        // Implement search logic here
+    }
+
+    private void AddList()
+    {
+        listErrorMessage = DALList.AddListInfo(global.Id, list);
+        ListFlag = !ListFlag;
+        LoadList();
+    }
+
+
+    private void ChangeNewTaskFlag()
+    {
+        if (descriptionFlag)
+        {
+            descriptionFlag = !descriptionFlag;
+        }
+        addNewTaskFlag = !addNewTaskFlag;
+    }
+
+    private void AddNewTask()
+    {
+        addListErrorMessage = DALTask.AddTaskInfo(global.Id, addNewTaskInfo);
+        addNewTaskFlag = false;
+        addNewTaskInfo.name = "";
+        addNewTaskInfo.description = "";
+        LoadTask();
+    }
+
+    private bool isChecked;
+
+    private void Update()
+    {
+        DALTask.UpdateTaskInfo(global.Id, taskInfo.taskID, taskInfo);
+        LoadTask();
+        descriptionFlag = false;
+    }
+
+    private void DeleteTask()
+    {
+        addListErrorMessage = DALTask.DeleteTaskInfo(taskInfo.taskID);
+        LoadTask();
+        descriptionFlag = false;
+    }
+    private void Description(int taskID, string taskName, string taskDescription, string taskList, DateTime date)
+    {
+        taskInfo.taskID = taskID;
+        taskInfo.name = taskName;
+        taskInfo.description = taskDescription;
+        taskInfo.taskList = taskList;
+        taskInfo.date = date;
+        descriptionFlag = !descriptionFlag;
+    }
+
+
+    private void HandleCheckboxChange(int taskID, bool checkBox)
+    {
+        checkBox = !checkBox;
+        DALTask.SaveCheckBoxState(taskID, checkBox);
+        LoadTask();
+    }
+
+}

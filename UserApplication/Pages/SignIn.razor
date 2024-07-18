@@ -1,0 +1,84 @@
+﻿@page "/SignIn"
+@inject NavigationManager navigation;
+@inject Global global;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Productive Mind</title>
+    <link rel="stylesheet" href="css/Style.css" />
+    <style>
+        
+
+    </style>
+</head>
+<body>
+    <div class="container-flex">
+        <img class="image" src="Images/Welcome3.png" alt="Image" />
+
+        <div class="text-container">
+            <h1>Sign in</h1>
+            <EditForm OnSubmit="Signin" Model="@userInfo">
+                <div class="col-12">
+                    <div class="input-group">
+                        <InputText @bind-Value="userInfo.email" class="form-control"  placeHolder="abc@mail.com" type="email"/>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="input-group">
+                        <InputText @bind-Value="userInfo.password" class="form-control" placeHolder="******" type="password" />
+                    </div>
+                </div>
+
+                <div class="col-12 m-2">
+                    <div class="form-check" style="text-align:center;">
+                        <label class="form-check-label" for="rememberMe">@errorMessage</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-warning w-100" type="submit">Sign in</button>
+                </div>
+            </EditForm>
+            
+            <button @onclick="SignUp" class="b bt w-100">Dont have an account? Sign up</button>
+        </div>
+
+    </div>
+</body>
+</html>
+
+@code {
+    private UserInfo userInfo = new UserInfo();
+    private string? errorMessage;
+    private int id = 0;
+
+    private void OnInitialized()
+    {
+        global.Id = 0;
+    }
+    private void SignUp()
+    {
+        navigation.NavigateTo("/SignUp");
+    }
+    private void Signin()
+    {
+        id = DALUserInfo.Auth(userInfo);
+
+        if(id!=0)
+        {
+            global.Id = id;
+            navigation.NavigateTo("/Upcomming");
+        }
+        else
+        {
+            errorMessage = "Wronge id or password try again";
+        }
+
+    }
+}

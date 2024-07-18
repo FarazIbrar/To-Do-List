@@ -1,0 +1,674 @@
+﻿
+.content {
+    padding-top: 0.5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+element.style {
+    padding-left: 0px;
+}
+
+
+body {
+    display: flex;
+    padding: 0.5% .5% .3% 0;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 95vh;
+    width: 250px;
+    background-color: #f8f9fa;
+    padding: 15px 0 65% 5px;
+    border-right: 1px solid #dee2e6;
+    transition: transform 0.3s ease;
+    border-radius: 3%;
+}
+
+.sidebar-hidden {
+    transform: translateX(-100%);
+}
+
+.toggle-button {
+    position: absolute;
+    top: 4.5%;
+    left: 80%;
+    background-color: #f8f9fa;
+    color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sidebar-links {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+a {
+    margin-left: 15px;
+}
+
+.sidebar-links a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin: 4%;
+}
+
+    .sidebar-links a:hover {
+        color: brown;
+    }
+
+.toggle-button:focus {
+    outline: none;
+}
+
+.editformsecond {
+    width: 50%;
+    margin-left: 30%;
+}
+
+
+
+.color {
+    height: 15px;
+    width: 15px;
+    border-radius: 20%;
+    margin-right: 4%;
+}
+
+.sidebar-bottom-links {
+    margin-top: auto;
+    list-style-type: none;
+    padding-left: 10px;
+    position: absolute;
+    margin-top: 47%;
+}
+
+    .sidebar-bottom-links a {
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        margin-left: 15px;
+        margin: 4%;
+    }
+
+        .sidebar-bottom-links a:hover {
+            color: brown;
+        }
+
+.color-picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 210px;
+    margin: 5px 20px;
+    padding: 5%;
+}
+
+.list-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.color-indicator {
+    width: 20px;
+    height: 15px;
+    border-radius: 10%;
+    margin-right: 10px;
+    margin-left: 10%;
+}
+
+.color-options {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.color-button {
+    width: 80px;
+    height: 14px;
+    border-radius: 10%;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+}
+
+    .color-button:focus {
+        outline: none;
+    }
+
+.btn-custom {
+    background-color: #f8f9fa;
+    color: #000;
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 4px;
+}
+
+    .btn-custom:hover {
+        background-color: #e2e6ea;
+    }
+
+.newListSelector {
+    cursor: pointer;
+}
+
+.listName {
+    width: 100%;
+    border: none;
+    margin-left: 1%;
+}
+
+    .listName:hover {
+        border: none;
+    }
+
+    .listName:focus {
+        outline: none;
+    }
+
+.listSearch {
+    width: 94%;
+    border: none;
+    padding: 1% 1% 1% 40px;
+    margin-left: 2%;
+    margin-bottom: 8%;
+    border-radius: 1%;
+    background: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/search/v14/24px.svg') no-repeat;
+    background-position: 10px center;
+    background-size: 20px 20px;
+}
+
+    .listSearch:hover {
+        border: none;
+    }
+
+    .listSearch:focus {
+        outline: none;
+    }
+
+
+
+.material-symbols-outlined {
+    margin-right: 3%;
+    font-size: 1rem;
+}
+
+h4 {
+    font-weight: bold;
+}
+
+h5 {
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 35px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+p {
+    font-size: 0.8rem;
+}
+
+a {
+    font-size: 0.8rem;
+}
+
+.task-count {
+    display: inline-block;
+    padding: 1% 2%;
+    border-radius: 3px;
+    background-color: #e9ecef;
+    color: #333;
+    font-size: .7rem;
+    margin-left: auto;
+}
+
+
+
+li:hover {
+    background-color: white;
+}
+
+p {
+    font-size: 1px;
+}
+
+.task-list {
+    width: 80vh;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+    .task-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        background: white;
+    }
+
+        .task-list li:last-child {
+            border-bottom: none;
+        }
+
+.task-details {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+
+.update {
+    border: none;
+    outline: none;
+}
+
+    .update:hover {
+        border: none;
+    }
+
+    .update:focus {
+        outline: none;
+    }
+
+.category {
+    display: inline-block;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+.personal {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.list1 {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.icon {
+    margin-left: 10px;
+}
+
+.task-containerr {
+    padding: 2% 3%;
+}
+
+.bt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    background-color: inherit;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+}
+
+
+.Today-comain {
+    display: flex;
+}
+
+.task-container, .task-containerr {
+}
+
+.task-containerr {
+    order: 1;
+    /* Other styles */
+}
+
+.task-container {
+    order: 2;
+    /* Other styles */
+}
+
+</style >
+
+<style >
+.task-container {
+    width: 40%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: inherit;
+}
+
+.task-container h3 {
+    margin-top: 0;
+}
+
+.task-container, .task-container select, .task-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+}
+
+    .task-container:hover, .task-container select:hover, .task-container textarea:hover {
+        border: none;
+    }
+
+    .task-container:focus, .task-container select:focus, .task-container textarea:focus {
+        outline: none;
+    }
+
+.tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .tags span {
+        background-color: #e0f7fa;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+
+.subtasks {
+    margin-top: 10px;
+}
+
+    .subtasks input[type="text"] {
+        margin-bottom: 8px;
+    }
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.form-control {
+    outline: none;
+}
+
+    .form-control:hover {
+        outline: none;
+        border: none;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+
+.editForm input:focus,
+.editForm textarea:focus,
+.editForm select:focus,
+.editForm button:focus {
+    outline: none;
+}
+
+InputText {
+    outline: none;
+    border: none;
+}
+
+.Today-main {
+}
+
+
+
+
+/*Sticky notes*/
+
+.task-container {
+    width: 40%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: inherit;
+}
+
+    .task-container h3 {
+        margin-top: 0;
+    }
+
+    .task-container, .task-container select, .task-container textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 4px;
+    }
+
+        .task-container:hover, .task-container select:hover, .task-container textarea:hover {
+            border: none;
+        }
+
+        .task-container:focus, .task-container select:focus, .task-container textarea:focus {
+            outline: none;
+        }
+
+.tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .tags span {
+        background-color: #e0f7fa;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+
+.subtasks {
+    margin-top: 10px;
+}
+
+    .subtasks input[type="text"] {
+        margin-bottom: 8px;
+    }
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.editForm {
+}
+
+.form-control {
+    outline: none;
+}
+
+    .form-control:hover {
+        outline: none;
+        border: none;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+
+.editForm input:focus,
+.editForm textarea:focus,
+.editForm select:focus,
+.editForm button:focus {
+    outline: none;
+}
+
+InputText {
+    outline: none;
+    border: none;
+}
+
+InputTextArea {
+    outline: none;
+    border: none;
+}
+
+.Today-main {
+}
+
+/*Sticky Notes*/
+.sticky-note {
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    height: 250px; /* Fixed height */
+    display: flex;
+    flex-direction: column;
+}
+
+.social-media {
+    background-color: #fff3cd;
+}
+
+.content-strategy {
+    background-color: #d1ecf1;
+}
+
+.email-ab-tests {
+    background-color: #f8d7da;
+}
+
+.banner-ads {
+    background-color: #ffe5b4;
+}
+
+.add-note {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e2e3e5;
+    cursor: pointer;
+    font-size: 2em;
+}
+
+.add-note-bt {
+    border: none;
+    background: inherit;
+}
+
+.plus-sign {
+    font-size: 50px;
+    font-weight: 500;
+}
+
+.form-control-stickyNotes {
+    width: 100%;
+    background: inherit;
+    border: none;
+    font-size: 15px; /*Adjust the font size for input text */
+
+    padding: 8px; /* Optional: add padding for better appearance */
+    width: 100%; /* Optional: make the input fields full width */
+}
+
+    .form-control-stickyNotes:hover {
+        border: none;
+        outline: none;
+    }
+
+    .form-control-stickyNotes:focus {
+        border: none;
+        outline: none;
+    }
+
+.buttons {
+    text-align: center;
+}
+
+input::placeholder {
+    font-size: 12px; /* Adjust the font size as needed */
+    /* Optional: change placeholder text color */
+}
+
+
+/*Check Box*/
+input[type="checkbox"] {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    /* Remove most all native input styles */
+    appearance: none;
+    /* For iOS < 15 */
+    background-color: var(--form-background);
+    /* Not removed via appearance */
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid currentColor;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+
+    input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        transform: scale(0);
+        transform-origin: bottom left;
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em var(--form-control-color);
+        /* Windows High Contrast Mode */
+        background-color: CanvasText;
+    }
+
+    input[type="checkbox"]:checked::before {
+        transform: scale(1);
+    }
+
+    input[type="checkbox"]:focus {
+        outline: max(2px, 0.15em) solid currentColor;
+        outline-offset: max(2px, 0.15em);
+    }
+
+    input[type="checkbox"]:disabled {
+        --form-control-color: var(--form-control-disabled);
+        color: var(--form-control-disabled);
+        cursor: not-allowed;
+    }
